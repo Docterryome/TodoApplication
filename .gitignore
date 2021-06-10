@@ -1,0 +1,25 @@
+.venv/
+.vscode/
+flaskApp/__pycache__/
+instance/
+
+todo-front-end/node_modules
+todo-front-end/.pnp
+todo-front-end/.pnp.js
+
+# testing
+todo-front-end/coverage
+
+# production
+todo-front-end/build
+
+# misc
+todo-front-end/.DS_Store
+todo-front-end/.env.local
+todo-front-end/.env.development.local
+todo-front-end/.env.test.local
+todo-front-end/.env.production.local
+
+todo-front-end/npm-debug.log*
+todo-front-end/yarn-debug.log*
+todo-front-end/yarn-error.log*
