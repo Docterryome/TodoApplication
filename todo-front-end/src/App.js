@@ -3,7 +3,6 @@ import {useState, useEffect} from 'react';
 
 function App() {
   const [todos, setTodos] = useState([])
-  const [countDown, setCountDown] = useState([])
   
   useEffect(() => {
     let interval = null
@@ -16,17 +15,20 @@ function App() {
         const countDown = deadLine - now
         console.log(countDown)
         Object.defineProperty(d, 'countDown', {
-          value: countDown
+          value: countDown,
+          writable: true
         })
         return d
       })
       setTodos(data)
-      const countDowns = data.map(d => d.countDown)
-      setCountDown(countDowns)
 
       interval = setInterval(() => {
-        setCountDown(prevState => {
-          const newState = prevState.map(d => d - 1000)
+        setTodos(prevState => {
+          const newState = prevState.map(d => {
+            d.countDown = d.countDown - 500
+            return d
+          })
+
           return newState
         })
       }, 1000)
@@ -40,7 +42,7 @@ function App() {
 
   const todoAdds = todos.map(todo => 
     {
-      const seconds = Math.floor(countDown[todo.id - 1] / 1000 )
+      const seconds = Math.floor(todo.countDown / 1000 )
       const minutes = Math.floor(seconds / 60 )
       const hours = Math.floor(minutes / 60 )
       const days = Math.floor( hours / 24 )
