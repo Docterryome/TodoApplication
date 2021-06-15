@@ -13,7 +13,6 @@ function App() {
         console.log(d.deadLine)
         const deadLine = new Date(d.deadLine * 1000)
         const countDown = deadLine - now
-        console.log(countDown)
         Object.defineProperty(d, 'countDown', {
           value: countDown,
           writable: true
@@ -40,18 +39,35 @@ function App() {
     } 
   },[])
 
+  const numberFormater = (num) => {
+    if (num < 10 && num !== 0){
+      return `0${num}`
+    }
+    else {
+      return `${num}`
+    }
+  }
   const todoAdds = todos.map(todo => 
     {
-      const seconds = Math.floor(todo.countDown / 1000 )
+      let countdown = todo.countDown
+      let overdue = false
+      if (countdown < 0){
+        countdown = countdown * -1
+        overdue = true
+      }
+      const myColor = overdue ? "red" : "black"
+      const color = {color : myColor }
+      const seconds = Math.floor(countdown / 1000 )
       const minutes = Math.floor(seconds / 60 )
       const hours = Math.floor(minutes / 60 )
       const days = Math.floor( hours / 24 )
       
      return (
      <div key={todo.id}>
-        <p></p>
-        <p>You have {days} days {hours % 24} hours {minutes % 60} minutes and {seconds % 60 } seconds to {todo.task}</p>
-     </div> 
+       <p>{todo.task}</p>
+       <p style={color}>{numberFormater(days)} days : {numberFormater(hours % 24)} hours : {numberFormater(minutes % 60)} minutes : {numberFormater(seconds % 60)} seconds</p>
+       <br/>
+      </div> 
      )
     }
   )
